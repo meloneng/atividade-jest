@@ -1,6 +1,7 @@
 const fs = require('fs');
 const animalsData = require('../data/animals.json');
 const { nanoid } = require('nanoid');
+const { normalize } = require('path');
 
 exports.post = (req, res, next) => {
   // Formato da requisição: /animais?nome=Dog&especie=Cachorro&idade=4
@@ -12,6 +13,10 @@ exports.post = (req, res, next) => {
   // Validações
   if (isNaN(idade)) {
     res.status(400).send({'mensagem': 'A idade do animal deve ser um número.'});
+  }
+
+  if (nome.length < 2) {
+    res.status(400).send({'mensagem': 'Nome deve ser ter ao menos 2 caracteres.'});
   }
 
   // Novo animal a ser inserido

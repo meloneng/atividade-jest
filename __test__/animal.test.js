@@ -3,13 +3,13 @@ const request = require('supertest');
 const app = require('../src/app');
 const animaisData = require('../src/data/animals.json');
 
-describe('Inserção de animais', () => {
+/*describe('Inserção de animais', () => {
 
     afterAll(() => {
         while (animaisData.length > 0) {
             animaisData.pop();
         }
-        fs.writeFileSync('src/data/animais.json', JSON.stringify(animaisData));
+        fs.writeFileSync('src/data/animals.json', JSON.stringify(animaisData));
     });
 
 
@@ -21,6 +21,34 @@ describe('Inserção de animais', () => {
 
     it('Deve falhar no cadastro pois a idade não é um número', async () => {
         const res = await request(app).post('animais?nome=Dog&especie=Cachorro&idade=a');
+        expect(res.status).toBe(400);
+    })
+
+});
+*/
+
+describe('Teste de inserção', () => {
+    afterAll(() => {
+        while(animaisData.length > 0) {
+            animaisData.pop();
+        }
+        fs.writeFileSync('src/data/animals.json', JSON.stringify(animaisData));
+    });
+
+    
+
+    it('Deve cadastrar um animal com sucesso', async () => {
+        const res = await request(app).post('/animais?nome=Spike&especie=Cachorro&idade=3');
+        expect(res.status).toBe(201);
+    });
+
+    it('Deve falhar no cadastro pois a idade não é um número', async () => {
+        const res = await request(app).post('/animais?nome=Mimi&especie=Gato&idade=jovem');
+        expect(res.status).toBe(400);
+    });
+
+    it('Deve falhar no cadastro pois a idade não é um número', async () => {
+        const res = await request(app).post('/animais?nome=J&especie=Hamster&idade=1');
         expect(res.status).toBe(400);
     })
 
@@ -47,14 +75,14 @@ describe('Requisição de animais', () => {
             'especie': 'manga',
             'idade': 3,
         });
-        fs.writeFileSync('src/data/animais.json', JSON.stringify(animaisData));
+        fs.writeFileSync('src/data/animals.json', JSON.stringify(animaisData));
     });
     
     afterAll(() => {
         while (animaisData.length > 0) {
             animaisData.pop();
         }
-        fs.writeFileSync('src/data/animais.json', JSON.stringify(animaisData));
+        fs.writeFileSync('src/data/animals.json', JSON.stringify(animaisData));
     });
     
     
